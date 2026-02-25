@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصتي الرقمية الشاملة | 50 رواية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --accent: #00cec9;
+            --dark: #2d3436;
+            --light: #f9f9f9;
+        }
+
+        * { box-sizing: border-box; font-family: 'Cairo', sans-serif; transition: 0.3s; }
+        body { margin: 0; background: var(--light); color: var(--dark); scroll-behavior: smooth; }
+
+        /* الهيدر */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white; padding: 100px 20px; text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
+        }
+
+        .search-box { margin-top: 30px; }
+        .search-box input {
+            width: 80%; max-width: 600px; padding: 15px 25px;
+            border-radius: 50px; border: none; font-size: 1.1rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2); outline: none;
+        }
+
+        /* حاوية المحتوى */
+        .container { max-width: 1200px; margin: auto; padding: 40px 20px; }
+
+        .section-title { text-align: center; margin-bottom: 40px; }
+        .section-title h2 { font-size: 2.5rem; color: var(--primary); }
+
+        /* شبكة الكتب (50 كتاب) */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white; border-radius: 15px; padding: 25px;
+            text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-bottom: 4px solid var(--primary);
+        }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .card i { font-size: 40px; display: block; margin-bottom: 10px; }
+        .card h3 { font-size: 1.2rem; margin: 10px 0; height: 50px; overflow: hidden; }
+        .card p { font-size: 0.9rem; color: #666; }
+        .btn {
+            display: inline-block; margin-top: 15px; padding: 8px 20px;
+            background: var(--primary); color: white; text-decoration: none;
+            border-radius: 5px; font-weight: bold;
+        }
+
+        /* نظام المهام */
+        .todo-box {
+            background: white; padding: 30px; border-radius: 20px;
+            margin-top: 60px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .todo-input { display: flex; gap: 10px; margin-bottom: 20px; }
+        .todo-input input { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid #ddd; }
+        .todo-input button { padding: 10px 20px; background: var(--accent); border: none; border-radius: 10px; color: white; cursor: pointer; }
+        
+        ul { list-style: none; padding: 0; }
+        li { 
+            background: #f1f1f1; margin-bottom: 5px; padding: 10px; 
+            border-radius: 8px; display: flex; justify-content: space-between; 
+        }
+
+        footer { background: var(--dark); color: white; text-align: center; padding: 40px; margin-top: 60px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>📚 مكتبة الـ 50 رواية الكبرى</h1>
+    <p>ابحث عن كتابك المفضل من بين أشهر الأعمال الأدبية</p>
+    <div class="search-box">
+        <input type="text" id="mainSearch" placeholder="ابحث باسم الرواية أو الكاتب...">
+    </div>
+</header>
+
+<div class="container">
+    <div class="section-title">
+        <h2>المعروضات الحالية</h2>
+        <p>تصفح مجموعتنا المختارة بعناية</p>
+    </div>
+
+    <div class="grid" id="bookGrid">
+        </div>
+
+    <div class="todo-box">
+        <h3>📝 مفكرة القراءة الخاصة بك</h3>
+        <div class="todo-input">
+            <input type="text" id="todoIn" placeholder="أضف كتاباً تنوي قراءته...">
+            <button onclick="addTodo()">إضافة</button>
+        </div>
+        <ul id="todoList"></ul>
+    </div>
+</div>
+
+<footer>
+    <p>تم تصميم هذا الموقع ليكون مكتبتك الشخصية الشاملة © 2026</p>
+</footer>
+
+<script>
+    // قائمة الـ 50 رواية
+    const books = [
+        {t: "البؤساء", a: "فيكتور هوجو", i: "🌍"}, {t: "1984", a: "جورج أورويل", i: "👁️"},
+        {t: "الجريمة والعقاب", a: "دوستويفسكي", i: "⚖️"}, {t: "الخيميائي", a: "باولو كويلو", i: "💎"},
+        {t: "ثلاثية القاهرة", a: "نجيب محفوظ", i: "🕌"}, {t: "الفيل الأزرق", a: "أحمد مراد", i: "🐘"},
+        {t: "ذاكرة الجسد", a: "أحلام مستغانمي", i: "🌹"}, {t: "يوتوبيا", a: "أحمد خالد توفيق", i: "🏢"},
+        {t: "موسم الهجرة للشمال", a: "الطيب صالح", i: "🌴"}, {t: "رواية أنت لي", a: "منى المرشود", i: "❤️"},
+        {t: "أرض زيكولا", a: "عمرو عبد الحميد", i: "🏜️"}, {t: "قواعد العشق 40", a: "إليف شافاق", i: "📜"},
+        {t: "شفرة دافنشي", a: "دان براون", i: "🎨"}, {t: "هاري بوتر", a: "جيه كيه رولينج", i: "⚡"},
+        {t: "سيد الخواتم", a: "تولكين", i: "💍"}, {t: "الشيخ والبحر", a: "همنغواي", i: "⛵"},
+        {t: "ألف ليلة وليلة", a: "تراث", i: "🌙"}, {t: "كليلة ودمنة", a: "ابن المقفع", i: "🦊"},
+        {t: "عزازيل", a: "يوسف زيدان", i: "⛪"}, {t: "تراب الماس", a: "أحمد مراد", i: "🧪"},
+        {t: "ما وراء الطبيعة", a: "أحمد خالد توفيق", i: "👻"}, {t: "الأسود يليق بك", a: "أحلام مستغانمي", i: "👗"},
+        {t: "في قلبي أنثى عبرية", a: "خولة حمدي", i: "✡️"}, {t: "رواية نادية", a: "يوسف السباعي", i: "👧"},
+        {t: "مدن الملح", a: "عبد الرحمن منيف", i: "🛢️"}, {t: "ساق البامبو", a: "سعود السنعوسي", i: "🎋"},
+        {t: "فرانكشتاين ببغداد", a: "أحمد سعداوي", i: "🧟"}, {t: "لا تحزن", a: "عائض القرني", i: "✨"},
+        {t: "مقدمة ابن خلدون", a: "ابن خلدون", i: "📜"}, {t: "عبقرية عمر", a: "العقاد", i: "⚔️"},
+        {t: "الرحيق المختوم", a: "المباركفوري", i: "📖"}, {t: "تفسير الجلالين", a: "تراث", i: "🕌"},
+        {t: "فن اللامبالاة", a: "مارك مانسون", i: "🖕"}, {t: "الأب الغني", a: "روبرت كيوساكي", i: "💰"},
+        {t: "قوة العادة", a: "تشارلز دويج", i: "🧠"}, {t: "فكر وازدد ثراءً", a: "نابليون هيل", i: "💎"},
+        {t: "مئة عام من العزلة", a: "ماركيز", i: "🕰️"}, {t: "جريمة في قطار الشرق", a: "أجاثا كريستي", i: "🚂"},
+        {t: "ثم لم يبق أحد", a: "أجاثا كريستي", i: "🏝️"}, {t: "أحدب نوتردام", a: "فيكتور هوجو", i: "🔔"},
+        {t: "الأمير الصغير", a: "سانت إكزوبيري", i: "👑"}, {t: "مغامرات شيرلوك", a: "كونان دويل", i: "🔍"},
+        {t: "الأخوة كارامازوف", a: "دوستويفسكي", i: "👨‍👦"}, {t: "أنا كارنينا", a: "تولستوي", i: "🇷🇺"},
+        {t: "الحرب والسلم", a: "تولستوي", i: "⚔️"}, {t: "يوميات نائب بالرياف", a: "توفيق الحكيم", i: "🖋️"},
+        {t: "دعاء الكروان", a: "طه حسين", i: "🕊️"}, {t: "الأيام", a: "طه حسين", i: "🕶️"},
+        {t: "النبي", a: "جبران خليل جبران", i: "🕊️"}, {t: "رجال في الشمس", a: "غسان كنفاني", i: "☀️"}
+    ];
+
+    // عرض الكتب في الصفحة
+    const grid = document.getElementById('bookGrid');
+    function displayBooks(filter = "") {
+        grid.innerHTML = "";
+        books.forEach(book => {
+            if(book.t.includes(filter) || book.a.includes(filter)) {
+                grid.innerHTML += `
+                    <div class="card">
+                        <i>${book.i}</i>
+                        <h3>${book.t}</h3>
+                        <p>${book.a}</p>
+                        <a href="#" class="btn">قراءة</a>
+                    </div>
+                `;
+            }
+        });
+    }
+
+    // تفعيل البحث
+    document.getElementById('mainSearch').addEventListener('input', (e) => {
+        displayBooks(e.target.value);
+    });
+
+    // إضافة مهام
+    function addTodo() {
+        const val = document.getElementById('todoIn').value;
+        if(val) {
+            const li = document.createElement('li');
+            li.innerHTML = `${val} <button onclick="this.parentElement.remove()" style="color:red; background:none; border:none; cursor:pointer;">❌</button>`;
+            document.getElementById('todoList').appendChild(li);
+            document.getElementById('todoIn').value = "";
+        }
+    }
+
+    displayBooks(); // تشغيل عند البداية
+</script>
+
+</body>
+</html>
