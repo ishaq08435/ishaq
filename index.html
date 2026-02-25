@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المكتبة العلمية</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 50px;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .section-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 300px;
+            padding: 20px;
+            transition: 0.3s;
+        }
+        .section-card:hover {
+            transform: translateY(-10px);
+        }
+        h2 { color: #2980b9; }
+        .link-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #27ae60;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .link-btn:hover {
+            background-color: #2ecc71;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>المكتبة العلمية</h1>
+        <p>مرحباً بك في عالم المعرفة والإبداع</p>
+    </header>
+
+    <div class="container">
+        
+        <div class="section-card">
+            <h2>📚 قسم الكتب</h2>
+            <p>تصفح أحدث الكتب العلمية والتقنية.</p>
+            <a href="book.html" class="link-btn">فتح الكتب</a>
+        </div>
+
+        <div class="section-card">
+            <h2>📖 قسم القصص</h2>
+            <p>استمتع بقراءة أجمل القصص والروايات.</p>
+            <a href="store.html" class="link-btn">قراءة القصص</a>
+        </div>
+
+        <div class="section-card">
+            <h2>🎨 مهارات إبداعية</h2>
+            <p>تعلم الفنون، التصميم، والابتكار.</p>
+            <a href="abcd.html" class="link-btn">استعرض المهارات</a>
+        </div>
+
+    </div>
+
+</body>
+</html>
